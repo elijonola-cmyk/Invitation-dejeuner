@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Une invitation pour vous 🍽️</title>
+<style>
+:root{--bg:#fff4ec;--card:#ffffff;--ink:#3a2a2a;--soft:#8a6f6f;--accent:#e4572e;--accent2:#ffb703;--line:#f3d9c9;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241a1a;--card:#33252a;--ink:#fbeee6;--soft:#c9a9a0;--accent:#ff7a4d;--accent2:#ffc933;--line:#4d3940}}
+:root[data-theme="dark"]{--bg:#241a1a;--card:#33252a;--ink:#fbeee6;--soft:#c9a9a0;--accent:#ff7a4d;--accent2:#ffc933;--line:#4d3940}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:Georgia,'Times New Roman',serif;display:flex;justify-content:center;padding:20px 16px 40px;
+background-image:radial-gradient(circle at 15% 10%,rgba(255,183,3,.18),transparent 40%),radial-gradient(circle at 90% 85%,rgba(228,87,46,.15),transparent 45%)}
+main{width:100%;max-width:440px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px 22px;box-shadow:0 10px 30px rgba(120,60,40,.12);text-align:center;animation:pop .45s ease}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.emoji{font-size:54px;line-height:1;margin-bottom:10px;display:inline-block;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(4deg)}}
+h1{font-size:25px;line-height:1.25;margin:6px 0 10px}
+p{font-size:17px;line-height:1.5;margin:8px 0}
+.soft{color:var(--soft);font-size:15px}
+.tag{display:inline-block;background:var(--accent2);color:#3a2a2a;font-weight:bold;border-radius:99px;padding:5px 14px;font-size:14px;margin:4px 3px}
+button,a.btn{display:block;width:100%;font:inherit;font-size:17px;border:0;border-radius:14px;padding:15px 16px;margin-top:12px;cursor:pointer;text-decoration:none;text-align:center;transition:transform .15s}
+button:active,a.btn:active{transform:scale(.97)}
+.yes{background:var(--accent);color:#fff;font-weight:bold}
+.no{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.opt{background:var(--bg);color:var(--ink);border:2px solid var(--line);text-align:left}
+.opt b{display:block;font-size:19px}
+.opt span{font-size:14px;color:var(--soft)}
+.bubble{background:var(--bg);border-left:4px solid var(--accent);border-radius:12px;padding:14px 16px;text-align:left;margin:16px 0 4px;font-style:italic}
+.recap{text-align:left;background:var(--bg);border:2px dashed var(--accent);border-radius:16px;padding:6px 16px;margin:16px 0}
+.recap div{padding:10px 0;border-bottom:1px solid var(--line);font-size:16px}
+.recap div:last-child{border:0}
+.recap small{display:block;color:var(--soft);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.hidden{display:none}
+textarea{width:100%;margin-top:12px;border:2px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:15px;background:var(--bg);color:var(--ink);resize:none}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+var MAIL="elijonola@gmail.com";
+var DATE_TXT="Vendredi 6 novembre 2026",HEURE="12h30";
+var RESTOS={
+ eugene:{nom:"Eugène",adr:"24 rue Sainte-Anne, 45000 Orléans",sub:"Cuisine raffinée, rue calme du centre",
+  msg:"Très bon choix madame ! Nappes blanches, assiettes qui font des manières… je ferai semblant de m’y connaître en vins. Pas d’entrecôte au menu, mais on y mange très bien et ce sera sympa 😉"},
+ parenthese:{nom:"Chez Marie-Laure & David",adr:"26 place du Châtelet, 45000 Orléans",sub:"L’accueil comme à la maison",
+  msg:"Excellent choix madame ! Ici on est reçu comme à la maison, et avec un peu de chance, on ne vous demandera pas de faire la vaisselle. Pas d’entrecôte au menu non plus, mais la cuisine est très bonne et l’ambiance sera top 😄"}
+};
+var app=document.getElementById('app');
+var choix=null;
+function show(html){app.innerHTML='<div class="card">'+html+'</div>';window.scrollTo(0,0)}
+function home(){
+ show('<div class="emoji">🍽️</div><h1>Une invitation très officielle vous attend…</h1>'+
+ '<p>Accepteriez-vous de déjeuner avec moi ?</p>'+
+ '<div><span class="tag">📅 Vendredi 6 novembre</span><span class="tag">🕧 12h30</span><span class="tag">📍 Orléans</span></div>'+
+ '<button class="yes" onclick="choisir()">Oui, avec plaisir 😍</button>'+
+ '<button class="no" onclick="non1()">Non, je réfléchis encore 🤔</button>');
+}
+function non1(){
+ show('<div class="emoji">😅</div><h1>Arrêtez de paniquer madame !</h1>'+
+ '<p>Promis, je ne mords pas et je ne suis pas un prédateur.</p>'+
+ '<p>Je vous invite à retourner en arrière et à modifier votre choix 🙏</p>'+
+ '<button class="yes" onclick="home()">← Retourner en arrière</button>'+
+ '<button class="no" onclick="non2()">Non, vraiment non 🙅‍♀️</button>');
+}
+function non2(){
+ show('<div class="emoji">😈</div><h1>Oups…</h1>'+
+ '<p>Vous n’avez pas d’autre choix que d’accepter !</p><p><b>C’est moi qui pilote 😈</b></p>'+
+ '<button class="yes" onclick="choisir()">Bon… d’accord, j’accepte 😅</button>');
+}
+function choisir(){
+ show('<div class="emoji">🥂</div><h1>Excellent ! Où voulez-vous manger ?</h1><p class="soft">Deux adresses à Orléans, à vous de choisir.</p>'+
+ Object.keys(RESTOS).map(function(k){var r=RESTOS[k];return '<button class="opt" onclick="resto(\''+k+'\')"><b>'+r.nom+'</b><span>'+r.sub+'</span></button>'}).join(''));
+}
+function resto(k){
+ choix=k;var r=RESTOS[k];
+ show('<div class="emoji">🎩</div><h1>'+r.nom+'</h1><div class="bubble">'+r.msg+'</div>'+
+ '<button class="yes" onclick="recap()">Je confirme ✅</button>'+
+ '<button class="no" onclick="choisir()">← Changer de restaurant</button>');
+}
+function recap(){
+ var r=RESTOS[choix];
+ var sujet=encodeURIComponent("Réponse à ton invitation : OUI 🍽️");
+ var corps=encodeURIComponent("C’est oui avec plaisir !\n\nDate : "+DATE_TXT+"\nHeure : "+HEURE+"\nRestaurant : "+r.nom+"\nAdresse : "+r.adr+"\n\nÀ vendredi !");
+ var maps="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(r.nom+" "+r.adr);
+ show('<div class="emoji">🎉</div><h1>C’est réservé dans mon agenda !</h1>'+
+ '<div class="recap"><div><small>Date</small>'+DATE_TXT+'</div><div><small>Heure</small>'+HEURE+'</div><div><small>Restaurant</small>'+r.nom+'</div><div><small>Adresse</small>'+r.adr+'</div></div>'+
+ '<p><b>Dernière étape 👇</b><br>Appuyez sur « Copier ma réponse », puis collez-la dans notre conversation Snap pour que je sois informé.</p>'+
+ '<button class="btn yes" id="cp" onclick="copier()">📋 Copier ma réponse</button>'+
+ '<textarea id="txt" class="hidden" readonly rows="6" onclick="this.select()"></textarea>'+
+ '<a class="btn no" target="_blank" rel="noopener" href="'+maps+'">🗺️ Voir sur la carte</a>'+
+ '<p class="soft">À vendredi ! 😊</p>');
+}
+function texte(){var r=RESTOS[choix];return "C’est OUI avec plaisir ! 🍽️\n📅 "+DATE_TXT+"\n🕧 "+HEURE+"\n📍 "+r.nom+"\n"+r.adr}
+function copier(){
+ var t=texte(),b=document.getElementById('cp'),ta=document.getElementById('txt');
+ function ok(){b.textContent='✅ Copié ! Collez-le dans Snap'}
+ function manuel(){ta.value=t;ta.classList.remove('hidden');ta.select();b.textContent='Copiez le texte ci-dessous 👇'}
+ try{navigator.clipboard.writeText(t).then(ok,manuel)}catch(e){manuel()}
+}
+home();
+</script>
+</body>
+</html>
